@@ -1,0 +1,163 @@
+table{
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.navbar{
+    background-color:  rgb(188, 188, 189);
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand{
+    font-weight: 500;
+}
+
+.chooseform{
+    width: 170px;
+    height: 27px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.chooseyorn{
+    width: 50px;
+    height: 27px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.leavenoremain{
+    width: 100px;
+    height: 27px;
+}
+
+.leavenoform{
+    width: 170px;
+    height: 27px;
+    
+}
+
+.btnclass{
+    background-color: rgb(3, 20, 146);
+    border-color:  rgb(3, 20, 146);
+    text-decoration: none;
+    transition: transform 0.5s;
+}
+
+/* .btnclass{
+    font-size: 30px;
+    margin-right: 15px;
+    
+} */
+.btn:hover{
+    color :rgb(3, 253, 249);
+    background-color: rgb(4, 22, 165);
+    transform: translateY(-3px); 
+}
+
+.headtxt{
+    background-color: rgb(3, 20, 146);
+    border-bottom: 1px solid white;
+    padding: 10px; 
+    border-right: 2px solid white;
+    color: antiquewhite;
+    font-weight: 600;
+}
+.headtxtplus{
+    background-color: rgb(3, 20, 146);
+    margin-left: 10px ;
+    /* border-bottom: 1px solid white;
+    padding: 10px; 
+    border-right: 2px solid white; */
+}
+
+.headNew{
+    color: white;
+    margin-left: 8px;
+}
+
+.fortrash{
+    padding: 0px;
+    /* height: fit-content; */
+    box-sizing: border-box;
+    font-size: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.trash{
+    padding: 0;
+    
+}
+
+th:last-child {
+    border-right: none;
+  }
+
+.nav-item{
+    padding-right: 10px;
+}
+
+.inputfrom{
+    margin-left: 70px;
+}
+
+.IDF{
+    margin-left: 201px;
+    border-color: rgb(104, 103, 103);
+    width: 500px;
+}
+
+.nameF{
+    margin-left: 250px;
+    border-color: rgb(104, 103, 103);
+    width: 500px;
+}
+
+.fatnameF{
+    margin-left: 200px;
+    border-color: rgb(104, 103, 103);
+    width: 500px;
+}
+
+.dateinputF{
+    margin-left: 200px;
+    border-color: rgb(104, 103, 103);
+    width: 500px;
+}
+
+.nrcF{
+    margin-left: 259px;
+    border-color: rgb(104, 103, 103);
+    width: 500px;
+}
+
+.tdbgcolor{
+    background-color: rgb(220, 220, 225);
+}
+
+.gender{
+    padding-left: 240px;
+    /* padding-bottom: 3px; */
+}
+
+.nrc_existsform{
+    margin-left: 300px;
+}
+
+.modal-conten{
+    background-color: black;
+}
+
+img{
+    width: 16px;
+    margin-bottom: 3px;
+}
+
+.formfield{
+    margin-left: 30px;
+}
+

@@ -1,0 +1,578 @@
+<div *ngIf="LeaveSaveSuccessMessage" class="alert alert-success" role="alert">
+  Employee and Leave days were saved successfully.
+</div>
+
+<div *ngIf="LeaveDaysDeleteMessage" class="alert alert-success" role="alert">
+  Leave day deleted successfully.
+</div>
+
+<div *ngIf="showSuccessImport" class="alert alert-success" role="alert">
+  Imported Successfully.
+</div>
+
+<div *ngIf="showErrorMessageForImport" class="alert alert-danger" role="alert">
+  Fail to import.
+</div>
+
+<div
+  *ngIf="ErrorSavingMessage"
+  class="alert alert-danger align-items-center"
+  role="alert"
+>
+  <div>Please enter Number of Leave Days.</div>
+</div>
+
+<div
+  *ngIf="ErropMessage"
+  class="alert alert-danger align-items-center"
+  role="alert"
+>
+  <div>Please enter Opening Leave Days.</div>
+</div>
+
+<div
+  *ngIf="ErrBFMessage"
+  class="alert alert-danger align-items-center"
+  role="alert"
+>
+  <div>Please enter Brought Forward Days.</div>
+</div>
+
+<div
+  *ngIf="ErrLYMessage"
+  class="alert alert-danger align-items-center"
+  role="alert"
+>
+  <div>Please enter Leave Year.</div>
+</div>
+
+<!-- <div *ngIf="invalidLeaveTypeError" class="alert alert-danger" role="alert">
+  Invalid leave type. Please enter a valid leave type.
+</div> -->
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Leave</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav justify-content-spacebetween">
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            (click)="navigateToLeaveAdd()"
+          >
+            <i class="fa fa-plus" aria-hidden="true"></i> New
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            (click)="SaveEmployeeAndLeaveDatas()"
+          >
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            Save
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleEmployeeLeaveModalDelete"
+          >
+            <i class="fa fa-trash" aria-hidden="true"></i> Delete
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            (click)="routetoList()"
+          >
+            <i class="fa fa-list-ul" aria-hidden="true"></i> List
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            (click)="clickImportInput()"
+          >
+            <img src="../../assets/images/import.png" /> Import
+          </button>
+          <input
+            type="file"
+            class="btn btn-primary"
+            style="display: none"
+            #Inputfile
+            (change)="handleFileInput($event)"
+          />
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary btnclass"
+            (click)="exportToExcelWithEmployeeData()"
+          >
+            <img src="../../assets/images/export.png" /> Export
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!---------------------------------------Form Field----------------------------------------->
+
+<div class="mt-3 formfield">
+  <div class="mb-3">
+    <td>
+      <label class="form-label">Employee_ID:</label>
+    </td>
+    <td>
+      <input
+        type="number"
+        class="IDF form-control"
+        id="Employee_Id"
+        name="Employee_Id"
+        [(ngModel)]="Employee_Id"
+        [disabled]="disableEmployeeIdField"
+        required
+      />
+    </td>
+  </div>
+  <div class="mb-3">
+    <td>
+      <label class="form-label">Name:</label>
+    </td>
+    <td>
+      <input
+        type="text"
+        class="nameF form-control"
+        id="name"
+        name="Name"
+        [(ngModel)]="employeeLeaveDatas.Name"
+        required
+      />
+    </td>
+  </div>
+  <div class="mb-3">
+    <td>
+      <label class="form-label">Father Name:</label>
+    </td>
+    <td>
+      <input
+        type="text"
+        class="fatnameF form-control"
+        id="father_name"
+        name="Father_Name"
+        [(ngModel)]="employeeLeaveDatas.Father_Name"
+        required
+      />
+    </td>
+  </div>
+  <div class="mb-3">
+    <td>
+      <label class="form-label">Date of Birth:</label>
+    </td>
+    <td>
+      <input
+        class="dateinputF form-control"
+        type="date"
+        id="DOB"
+        name="DOB"
+        [(ngModel)]="employeeLeaveDatas.DOB"
+        required
+      />
+    </td>
+  </div>
+  <div>
+    <td>
+      <label>Gender:</label>
+    </td>
+    <td class="gender">
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="flexRadioDefault1"
+          name="Gender"
+          [(ngModel)]="employeeLeaveDatas.Gender"
+          value="true"
+        />
+        <label class="form-check-label" for="flexRadioDefault1">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="Gender"
+          id="flexRadioDefault2"
+          [(ngModel)]="employeeLeaveDatas.Gender"
+          value="false"
+          checked
+        />
+        <label class="form-check-label" for="flexRadioDefault2">Female</label>
+      </div>
+    </td>
+  </div>
+  <div class="form-check nrc_existsform">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="flexCheckDefault"
+      [(ngModel)]="employeeLeaveDatas.NRC_Exists"
+      name="NRC_Exists"
+    />
+    <label class="form-check-label" for="flexCheckDefault">NRC EXISTS</label>
+  </div>
+  <div class="mb-3">
+    <td>
+      <label class="form-label">NRC:</label>
+    </td>
+    <td>
+      <input
+        type="text"
+        class="nrcF form-control"
+        id="NRC"
+        [(ngModel)]="employeeLeaveDatas.NRC"
+        name="NRC"
+      />
+    </td>
+  </div>
+</div>
+
+<!-----------------<<<<<<<<<<<<<<<<<<<<list Leave Table>>>>>>>>>>>>>>>----------------------->
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col" class="headtxt">Leave Type</th>
+      <th scope="col" class="headtxt">No. of Leave Days</th>
+      <th scope="col" class="headtxt">Opening Leave Days</th>
+      <th scope="col" class="headtxt">Brought Forward</th>
+      <th scope="col" class="headtxt">Taken Leave Days</th>
+      <th scope="col" class="headtxt">Remaining Leave Days</th>
+      <th scope="col" class="headtxt">Leave Year</th>
+      <th scope="col" class="headtxt">Carry Forward</th>
+      <th scope="col" class="headtxtplus">
+        <a (click)="addRow()"
+          ><i class="fa fa-plus headNew" aria-hidden="true"></i
+        ></a>
+      </th>
+    </tr>
+  </thead>
+
+  <!-- <tbody>
+    <tr *ngFor="let LeaveDay of LeaveDays, let i = index">
+      <td scope="row" class="tdbgcolor">
+        <div class="input-group">
+
+          <select class="form-select chooseform" id="Leave_Type" [(ngModel)]="LeaveDay.Leave_Type">
+            <option *ngFor="let option of LeaveDays" [value]="option.Leave_Type">
+              {{ option.Leave_Type }}
+            </option>
+          </select>
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Number_of_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Number_of_Leave_Days"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Opening_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Opening_Leave_Days"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Brought_Forward"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Brought_Forward"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Taken_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Taken_Leave_Days"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Remaining_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Remaining_Leave_Days"
+            disabled
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoremain"
+            id="Leave_Year"
+            aria-describedby="numberHelp"
+            [(ngModel)]="LeaveDay.Leave_Year"
+            maxlength="4"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="input-group">
+          <select class="form-select chooseform" id="Leave_Type" [(ngModel)]="LeaveDay.Carry_Forward">
+            <option *ngFor="let ForwardOption of LeaveDays" [value]="ForwardOption.Carry_Forward">
+              {{ ForwardOption.Carry_Forward }}
+            </option>
+          </select>
+        </div>
+      </td>
+      <td class="trash tdbgcolor">
+        <a class="fortrash" (click)="removeRow(i)"
+          ><i class="fa fa-trash" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody> -->
+  <!-------------------------------------------------------------------------------------------------------------------------->
+  <tbody *ngFor="let leaveData of leaveDatas; let i = index">
+    <tr>
+      <td scope="row" class="tdbgcolor">
+        <div class="input-group">
+          <select
+            class="form-select chooseform"
+            id="Leave_Type"
+            [(ngModel)]="leaveData.Leave_Type"
+          >
+            <option *ngFor="let leavetype of leavetypes" [value]="leavetype">
+              {{ leavetype }}
+            </option>
+          </select>
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Number_of_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Number_of_Leave_Days"
+            (ngModelChange)="streamRemainLeaveDaysCalculation()"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Opening_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Opening_Leave_Days"
+            (ngModelChange)="streamRemainLeaveDaysCalculation()"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Brought_Forward"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Brought_Forward"
+            (ngModelChange)="streamRemainLeaveDaysCalculation()"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Taken_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Taken_Leave_Days"
+            (ngModelChange)="streamRemainLeaveDaysCalculation()"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoform"
+            id="Remaining_Leave_Days"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Remaining_Leave_Days"
+            (ngModelChange)="streamRemainLeaveDaysCalculation()"
+            (ngModelChange)="(leaveData.Number_of_Leave_Days)"
+            (ngModelChange)="(leaveData.Opening_Leave_Days)"
+            (ngModelChange)="(leaveData.Brought_Forward)"
+            (ngModelChange)="(leaveData.Taken_Leave_Days)"
+            disabled
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="">
+          <input
+            type="number"
+            class="form-control leavenoremain"
+            id="Leave_Year"
+            aria-describedby="numberHelp"
+            [(ngModel)]="leaveData.Leave_Year"
+            pattern="/^-?\d+\.?\d*$/"
+            onKeyPress="if(this.value.length==4) return false;"
+          />
+        </div>
+      </td>
+      <td class="tdbgcolor">
+        <div class="input-group">
+          <select
+            class="form-select chooseform"
+            id="Carry_Forward"
+            [(ngModel)]="leaveData.Carry_Forward"
+          >
+            <option
+              *ngFor="let LeavecarryForward of LeavecarryForwards"
+              [value]="LeavecarryForward"
+            >
+              {{ LeavecarryForward }}
+            </option>
+          </select>
+        </div>
+      </td>
+
+      <td class="trash tdbgcolor">
+        <a class="fortrash" (click)="removeRow(i)"
+          ><i class="fa fa-trash" aria-hidden="true"></i
+        ></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  class="modal"
+  tabindex="-1"
+  id="exampleModalDelete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header deletebtn">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure want to delete?</h4>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary btnclass"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="DeleteOneleaveDay(this.LeaveDays.id)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  id="exampleEmployeeLeaveModalDelete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header deletebtn">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure want to delete?</h4>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary btnclass"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="DeleteEmployeeLeaveDays()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<i class="fa-solid fa-file-export"></i>

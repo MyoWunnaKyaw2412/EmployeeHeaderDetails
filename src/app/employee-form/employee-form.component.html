@@ -1,0 +1,375 @@
+<div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">
+  Employee added successfully!
+</div>
+
+<div *ngIf="showUpdateMessage" class="alert alert-success" role="alert">
+  Employee Updated Successfully.
+</div>
+
+<div *ngIf="shwoSuccessImport" class="alert alert-success" role="alert">
+  Employee Updated Successfully.
+</div>
+
+<div *ngIf="showDeleteMessage" class="alert alert-success" role="alert">
+  Employee Deleted Successfully.
+</div>
+
+<div *ngIf="showErrorMessage" class="alert alert-danger" role="alert">
+  Employee ID already exist. Please try again.
+</div>
+
+<div *ngIf="showErrorMessageForImport" class="alert alert-danger" role="alert">
+  Employee ID already exist. Please try again.
+</div>
+
+<div *ngIf="showUniqueIdMessage" class="alert alert-danger" role="alert">
+  Invalid Excel data. Please check ID uniqueness and format.
+</div>
+
+<div *ngIf="showGenderErrorMessage" class="alert alert-danger" role="alert">
+  Invalid gender in Excel data. Please check the spelling and fromat of gender.
+</div>
+
+<div *ngIf="showNRCExistsErrorMessage" class="alert alert-danger" role="alert">
+  Invalid NRC_Exists in Excel data. Please check the spelling and fromat of NRC_Exists.
+</div>
+
+<div *ngIf="showDateFormatErrors" class="alert alert-danger" role="alert">
+  Invalid date format in Excel data.
+</div>
+
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">EMPLOYEE</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <div class="d-flex" role="search">
+          <input
+          class="form-control me-2"
+          [(ngModel)]="searchText"
+          (keyup.enter)="applyFilter()"
+          type="text"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        </div>
+        <li class="navbtn">
+          <button class="btn btn-primary btnclass" (click)="clickInput()">Import</button>
+          <input
+            type="file"
+            class="btn btn-primary"
+            style="display: none"
+            #Inputfile
+            (change)="importFromExcel($event)"
+          />
+        </li>
+        <li>
+          <button
+            class="btn btn-primary btnclass navbtn"
+            (click)="exportToExcel(getEmployeeS, 'exported_data')"
+          >
+            Export
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="btnclass btn btn-outline-success"
+            type="submit"
+            (click)="navigateToLeave(getEmployeeS.Employee_Id)">
+            Add Employee
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<table class="table table-hover table-bordered mt-3">
+  <thead>
+    <tr>
+      <th class="bghead" scope="col">Employee_ID</th>
+      <th class="bghead" scope="col">Name</th>
+      <th class="bghead" scope="col">FATHER NAME</th>
+      <th class="bghead" scope="col">DOB</th>
+      <th class="bghead" scope="col">GENDER</th>
+      <th class="bghead" scope="col">NRC-EXIST</th>
+      <th class="bghead" scope="col">NRC</th>
+      <th class="bghead" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody
+    *ngFor="
+      let getEmployee of getEmployeeS
+        |search: searchText :searchDate: searchGender
+        | paginate : { itemsPerPage: pageSize, currentPage: currentPage }"
+        
+        >
+    <tr>
+      <!-- [routerLink]="'/leave/' + getEmployee.Employee_Id" -->
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id"   class="ttext" scope="row">{{ getEmployee.Employee_Id }}</td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id" >{{ getEmployee.Name }}</td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id" >{{ getEmployee.Father_Name }}</td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id"   class="ttext" >
+        {{ getEmployee.DOB}}
+      </td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id"   class="ttext" >{{ getEmployee.Gender | gender }}</td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id"   class="ttext">{{ getEmployee.NRC_Exists | nrcvalid }}</td>
+      <td  [routerLink]="'/leave/' + getEmployee.Employee_Id"   class="ttext">{{ getEmployee.NRC }}</td>
+      <td  class="icon-ed">
+        <a
+          href=""
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModalsEdit"
+          (click)="getEditArray(getEmployee)"
+          type="submit"
+          scope="row"
+        >
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </a>
+        <a
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModalDelete"
+          (click)="getEmployee_Id(getEmployee.Employee_Id)"
+          ><i class="fa fa-trash-o" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  class="modal"
+  tabindex="-1"
+  id="exampleModalDelete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header deletebtn">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure want to delete?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btnclass" data-bs-dismiss="modal btnclose">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="DeleteEmployee()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <pagination-controls (pageChange)="currentPage = $event">
+  </pagination-controls>
+</div>
+
+<!-- <div>
+  <pagination-controls  [(currentPage)]="currentPage" (pageChange)="onPageChange($event)">
+  </pagination-controls>
+</div> -->
+
+<!-------------Edit modal------------------>
+
+<div
+  class="modal fade"
+  id="exampleModalsEdit"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header edithead">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT</h1>
+        <button
+          type="button"
+          class="btn-close btnclass"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <td>
+              <label class="form-label">ID: </label>
+            </td>
+            <td>
+              <input
+                type="number"
+                class="IDF form-control"
+                id="Employee_Id"
+                aria-describedby="emailHelp"
+                name="Employee_Id"
+                [(ngModel)]="editArray.Employee_Id"
+                required
+                placeholder="getEmployee_Id(getEmployee.Employee_Id)"
+                disabled
+              />
+            </td>
+          </div>
+
+          <div class="mb-3">
+            <td>
+              <label class="form-label">Name: </label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="nameF form-control"
+                id="Name"
+                aria-describedby="emailHelp"
+                name="Name"
+                [(ngModel)]="editArray.Name"
+                required
+                #Namein="ngModel"
+              />
+            </td>
+          </div>
+          <div class="mb-3">
+            <td>
+              <label for="exampleInputEmail1" class="form-label"
+                >Father Name:
+              </label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                id="father_Name"
+                aria-describedby="emailHelp"
+                name="Father_Name"
+                [(ngModel)]="editArray.Father_Name"
+                required
+                #Father_Namein="ngModel"
+              />
+            </td>
+          </div>
+          <div class="mb-3">
+            <td>
+              <label for="datepicker">Date of Birth:</label>
+            </td>
+            <td>
+              <input
+                class="form-control"
+                type="date"
+                id="DOB"
+                name="DOB"
+                [(ngModel)]="editArray.DOB"
+                required
+              />
+            </td>
+            <div *ngIf="isUnderAge()" class="text-danger">
+              Warning: Users must be 18 years or older.
+            </div>
+          </div>
+          <div>
+            <td>
+              <p>Gender:</p>
+            </td>
+            <td>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  id="flexRadioDefault1"
+                  name="Gender"
+                  [(ngModel)]="editArray.Gender"
+                  [value]="false"
+                />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Male
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="Gender"
+                  id="flexRadioDefault2"
+                  [(ngModel)]="editArray.Gender"
+                  [value]="true"
+                  checked
+                />
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Female
+                </label>
+              </div>
+              <br />
+            </td>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="flexCheckDefault"
+              name="NRC_Exists"
+              [(ngModel)]="editArray.NRC_Exists"
+              (change)="clearNRC()"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              NRC EXISTS
+            </label>
+          </div>
+
+          <!-- <input *ngIf="nrc_exists" type="text" [(ngModel)]="nrc" name="nrc" /> -->
+          <div class="mb-3">
+            <td>
+              <label for="exampleInputEmail1" class="form-label">NRC: </label>
+            </td>
+            <td>
+              <input
+                *ngIf="editArray.NRC_Exists"
+                type="text"
+                class="form-control"
+                id="NRC"
+                aria-describedby="emailHelp"
+                name="NRC"
+                [(ngModel)]="editArray.NRC"
+                [disabled]="!editArray.NRC_Exists"
+              />
+            </td>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              data-bs-dismiss="modal"
+              type="button"
+              id="ModalEmployee"
+              class="btnclass btn btn-primary"
+              (click)="UpdateEmployee()"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btnclass"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

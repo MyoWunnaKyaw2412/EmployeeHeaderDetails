@@ -1,0 +1,125 @@
+.navbar-brand {
+    color: rgb(255, 254, 254);
+    font-weight: 500;
+}
+
+.navbar{
+    background-color:  rgb(3, 20, 146);
+    /* background: rgb(45,140,253);
+    background: linear-gradient(350deg, rgba(45,140,253,1) 9%, rgba(140,241,43,1) 43%, rgba(42,65,236,1) 54%, rgba(217,92,107,1) 67%, rgba(34,70,195,1) 85%); */
+}
+
+.modal-header{
+    background:rgb(3, 20, 146);
+    /* background: linear-gradient(350deg, rgba(45,140,253,1) 9%, rgba(140,241,43,1) 43%, rgba(42,65,236,1) 54%, rgba(217,92,107,1) 67%, rgba(34,70,195,1) 85%); */
+}
+h1{
+    color: #ffffffff;
+}
+.savebtn {
+   background-color: rgb(3, 20, 146);
+}
+.addbtn{
+    background-color: rgb(3, 20, 146);
+    color: #ffffffff;
+    border-color: rgb(3, 20, 146); 
+
+}
+
+h1{
+    color: #ffffff;
+}
+
+.deletebtn{
+    background-color: rgb(243, 38, 38);
+}
+
+.edithead{
+    background-color:  rgb(3, 20, 146);
+}
+
+.fa{
+    width: 100%;
+}
+a{
+    display: inline-block;
+    justify-content: space-between;
+    width: 40px;
+    height: fit-content;
+    box-sizing: border-box;
+    font-size: 30px;
+    margin-left: 10px;
+}
+.fa-trash-o{
+    color: rgb(255, 37, 3);
+}
+.fa-pencil-square-o{
+    color: rgb(2, 2, 253);
+}
+.icon-ed{
+    padding: 0px;
+}
+.me-2{
+    margin-right: 1.5rem!important;
+    width: 140%;
+}
+.newbtn{
+    background-color:  rgb(3, 20, 146);
+}
+.form-control{
+    margin-left: 10px;
+}
+
+.IDF{
+    margin-left: 30px;
+}
+
+.nameF{
+    margin-left: 60px;
+}
+.namemut{
+    margin-left: 65px;
+}
+.idmut{
+    margin-left: 90px;
+}
+.ftnF{
+    margin-left: 15px;
+}
+
+span{
+    color: red;
+}
+
+.ttext{
+    text-align: end;
+}
+
+.text-danger{
+   margin-left: 110px;
+}
+
+.form-control{
+    width: 300px;
+}
+
+.bghead{
+    background-color:  rgb(3, 20, 146);
+    color: #ffffff;
+}
+
+.success-message {
+    background-color: #28a745; /* Green color */
+    color: #fff; /* White text */
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.btnclass{
+    background-color: rgb(64, 195, 243);
+    color: #000000;
+    font-weight: 500;
+}
+.navbtn{
+    margin-right: 10px;
+}
